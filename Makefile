@@ -1,8 +1,8 @@
 PROG=certfresh
 
-all: resolve-deps compiled
+all: resolve-deps $(PROG)
 
-compiled:
+$(PROG):
 	raco exe --vv -o $(PROG) ./cli.rkt
 
 resolve-deps:
