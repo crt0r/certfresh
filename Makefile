@@ -18,4 +18,4 @@ uninstall:
 	rm $(INSTALL)/$(PROG)
 
 clean:
-	if [ -f "$(PROG)" ]; then rm $(PROG); fi
+	if [ -d "$(BUILD)" ]; then rm -r $(BUILD); fi
