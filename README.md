@@ -41,7 +41,7 @@
     # certfresh -c ~/certs/fullchain.pem -d 45 -w '/opt/refresh.sh'
     ```
 
-1. Perform daily check if the cert expires in 15 days. If it is, run the worker script and redirect `stdout` and `stderr` to a log file.
+1. Perform daily checks to see if the cert expires in 15 days. If it does, run the worker script and redirect `stdout` and `stderr` to a log file.
     > It depends on file permissions. If your certs are available for `root` only, then:
 
     1. Open `crontab`
