@@ -9,4 +9,4 @@ resolve-deps:
 	raco pkg install --skip-installed --auto x509-lib gregor
 
 clean:
-	rm $(PROG)
+	if [ -f "$(PROG)" ]; then rm $(PROG); fi
