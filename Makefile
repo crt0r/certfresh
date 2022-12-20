@@ -1,12 +1,21 @@
+BUILD=build
 PROG=certfresh
+INSTALL=/usr/local/bin
 
-all: resolve-deps $(PROG)
+all: resolve-deps clean $(BUILD)/$(PROG)
 
-$(PROG):
-	raco exe --vv -o $(PROG) ./cli.rkt
+$(BUILD)/$(PROG):
+	mkdir -p $(BUILD)
+	raco exe --vv -o $(BUILD)/$(PROG) ./cli.rkt
 
 resolve-deps:
 	raco pkg install --skip-installed --auto x509-lib gregor
+
+install:
+	cp $(BUILD)/$(PROG) $(INSTALL)
+
+uninstall:
+	rm $(INSTALL)/$(PROG)
 
 clean:
 	if [ -f "$(PROG)" ]; then rm $(PROG); fi
