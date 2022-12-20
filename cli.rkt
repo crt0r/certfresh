@@ -26,12 +26,16 @@ SOFTWARE.
 
 #lang racket/base
 
+(require racket/system)
+
 (require "certfresh.rkt"
          racket/string
          racket/cmdline)
 
 (define path (make-parameter ""))
 (define diff (make-parameter 30))
+(define check-only (make-parameter #f))
+(define worker (make-parameter ""))
 
 (define (check-expiry)
   (cond
@@ -44,7 +48,17 @@ SOFTWARE.
                [(eq? expires 'file-not-found)
                 (displayln "The cert file not found!")]
                [expires
-                (displayln "The certificate expires soon! Trying to renew...")]
+                (begin
+                  (displayln "The certificate expires soon!")
+                  (if (check-only)
+                      (exit 0)
+                      (begin
+                        (displayln "Launching the worker to renew cert...")
+                        (if (not (non-empty-string? (worker)))
+                            (begin
+                              (displayln "The worker is required!")
+                              (exit 1))
+                            (system (worker))))))]
                [(not expires)
                 (displayln "The certificate doesn't need to be updated yet.")])))]))
 
@@ -59,5 +73,11 @@ SOFTWARE.
                                                 "If the certificate expiry date is less than or equal to the diff number, the certificate is considered to be expired soon."
                                                 "The default value is 30 days.")
                                                (diff (string->number DIFF)))
+              (("-C" "--check-only")
+               "Check the exipry without renewal."
+               (check-only #t))
+              (("-w" "--refresh-worker") WORKER
+                                         "A shell command or an executable file that refreshes the certificate."
+                                         (worker WORKER))
               #:args () 
               (check-expiry))
