@@ -51,6 +51,6 @@
 
     1. Add a line similar to the following one
         ```
-        @daily /usr/local/bin/certfresh -c /etc/ssl-certs/fullchain/pem -d 15 -w '/opt/refresh-cert.sh' &>> /var/log/certfresh.log
+        @daily /usr/local/bin/certfresh -c /etc/ssl-certs/fullchain.pem -d 15 -w '/opt/refresh-cert.sh' &>> /var/log/certfresh.log
         ```
 
